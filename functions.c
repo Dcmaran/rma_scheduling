@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "functions.h"
 
 #define MAX_LINES 100
 #define MAX_LEN 1000
@@ -82,38 +81,60 @@ FILE* openFile(char* file_name){
 }
 
 
-Process** inputProcessInfo(char* file_name){
-    int processes_count;
-    int line = 0;
+Process** inputProcessInfo(Process** process_list_arg, char* file_name){
+    int count_line = 0;
     
     char *separated_line[MAX_LEN];
+    char line[MAX_LINES][MAX_LINES];
 
-    FILE* file;
-    char data[MAX_LINES][MAX_LEN];
-    file = fopen(file_name, "r");
+    FILE* file = openFile(file_name);
 
     while (!feof(file) && !ferror(file)){
-    if (fgets(data[line], MAX_LEN, file) != NULL)
-        line++;
+        if (fgets(line[count_line], MAX_LEN, file) != NULL){   
+            if (line[count_line][strlen(line[count_line]) - 1] == '\n')
+            {
+                line[count_line][strlen(line[count_line]) - 1] = '\0'; 
+            }
+             
+            count_line++;
+            printf("%d", count_line);
+        }
     }
-
-    Process *processes_list[line - 1];
-
-    for (int i = 0; i < line - 1; i++){
-        parse_command_by_space(separated_line, data[i+1]);
-
-        processes_list[i]->process_name = separated_line[0];
-        processes_list[i]->period = atoi(separated_line[1]);
-        processes_list[i]->execution_time = atoi(separated_line[2]);
-    }
-
-    for (int i = 0; i < line - 1 ; i++)
-    {
-        printf("%s\n", processes_list[i]->process_name);
-        printf("%d\n", processes_list[i]->period);
-        printf("%d\n", processes_list[i]->execution_time);
-    }
-    
     fclose(file);
 
+    Process *processes_list[count_line - 1];
+
+    for (int i = 0; i < count_line - 1; i++)
+    {
+        int j = 0;
+        parse_command_by_space(separated_line, line[i + 1]);
+
+        //printf("%s\n", separated_line[0]);
+        //printf("%s\n", separated_line[1]);
+        //printf("%s\n", separated_line[2]);
+
+        int period = atoi(separated_line[1]);
+        int execution_time = atoi(separated_line[2]);
+        char *name = separated_line[0];
+        
+        processes_list[i]->process_name = name;
+        processes_list[i]->period = period;
+        processes_list[i]->execution_time = execution_time;
+    }
+    
+    printf("%s ", processes_list[0]->process_name);
+    printf("%d ", processes_list[0]->period);
+    printf("%d ", processes_list[0]->execution_time);
+    
+    printf("%s ", processes_list[1]->process_name);
+    printf("%d ", processes_list[1]->period);
+    printf("%d ", processes_list[1]->execution_time);
+
+    printf("%s ", processes_list[2]->process_name);
+    printf("%d ", processes_list[2]->period);
+    printf("%d ", processes_list[2]->execution_time);
+
+    process_list_arg = processes_list;
+    
+    return processes_list_arg;
 } 
