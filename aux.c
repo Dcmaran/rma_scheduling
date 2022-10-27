@@ -74,7 +74,6 @@ int separateLines(int count_line, char *file_name, char line[MAX_LEN][MAX_LEN]){
             {
                 line[count_line][strlen(line[count_line]) - 1] = '\0'; 
             }
-            printf("%s\n", line[count_line]);
             count_line++;
         }
     }
@@ -83,13 +82,11 @@ int separateLines(int count_line, char *file_name, char line[MAX_LEN][MAX_LEN]){
     return count_line;
 }
 
-void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_line, Process *processes_list_args[count_line - 1]){
-    
+void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_line, Process processes_list_args[count_line - 1], int clocks){
+
     char *separated_line[MAX_LEN];
 
-    printf("%d", count_line);
-
-    Process *processes_list[50];
+    Process process_aux;
     
     for (int i = 0; i < count_line - 1; i++)
     {
@@ -99,17 +96,43 @@ void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_li
         int execution_time = atoi(separated_line[2]);
         char *name = separated_line[0];
     
-        processes_list[i]->process_name = name;
-        processes_list[i]->period = period;
-        processes_list[i]->execution_time = execution_time;
+        process_aux.process_name= name;
+        process_aux.period = period;
+        process_aux.execution_time = execution_time;
+        process_aux.deadlines = 0;
+        process_aux.executed_ut = 0;
+        process_aux.complete_executions = 0;
 
-        printf("%s", processes_list[i]->process_name);
-        printf("%d", processes_list[i]->period);
-        printf("%d", processes_list[i]->execution_time);
-        
+        processes_list_args[i] = process_aux;
     }
-
-    processes_list_args = processes_list;
-    exit(EXIT_SUCCESS);
       
 } 
+
+void printProcess(int count_line, Process process[count_line - 1], int i){
+
+    printf("Task Name - %s\n", process[i].process_name);
+    printf("Period - %d\n", process[i].period);
+    printf("Execution Time - %d\n", process[i].execution_time);
+    printf("Deadlines - %d\n", process[i].deadlines);
+    printf("Unity time - %d\n", process[i].executed_ut);
+    printf("Complete Executions - %d\n", process[i].complete_executions);
+}
+
+void bsortDesc(Process process_list[], int count_process)
+{
+    int i, j;
+    Process temp;
+    
+    for (i = 0; i < count_process - 1; i++)
+    {
+        for (j = 0; j < (count_process - 1-i); j++)
+        {
+            if (process_list[j].period > process_list[j + 1].period)
+            {
+                temp = process_list[j];
+                process_list[j] = process_list[j + 1];
+                process_list[j + 1] = temp;
+            } 
+        }
+    }
+}

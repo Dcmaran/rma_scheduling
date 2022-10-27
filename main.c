@@ -29,13 +29,18 @@ int main(int argc, char const *argv[])
     char *separated_line[MAX_LEN];
 
     count_line = separateLines(count_line, "input.txt", line);
-    //printf("%d", count_line);
     
-    Process *process_list[50];
+    Process process_list[count_line - 1];
 
     inputProcessInfo("input.txt", line, count_line, process_list);
-    //inputProcessInfo("input.txt");
+    
+    bsortDesc(process_list, count_line - 1);
+    printProcess(count_line, process_list, 0);]
 
-    //printf("%s", process_list[0]->process_name);
+    do
+    {
+        
+    } while (clocks_count < clocks);
+    
     return 0;
 }
