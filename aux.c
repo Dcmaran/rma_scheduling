@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MAX_LINES 1000
 #define MAX_LEN 1000
 
 //static const char* const process_status[] = {"F", "H", "L", "K"};
@@ -39,13 +38,18 @@ FILE* openFile(char* file_name){
 
 void parse_command_by_space(char **args, char *command)
 {
-    args[0] = strtok(command, " ");
+    char *separator;
+
+    separator = strtok(command, " ");
 
     int count = 0;
 
-    while (args[count] != NULL)
+    while (separator != NULL)
     {
-        args[++count] = strtok(NULL, " ");
+        args[count] = strdup(separator);
+        separator = strtok(NULL, " ");
+        count++;
+        
     }
     
 }
@@ -61,12 +65,7 @@ void printLostDeadLines(char *process_name, int deadlines){
 }
 
 
-Process** inputProcessInfo(char* file_name){
-    int count_line = 0;
-    
-    char *separated_line[MAX_LEN];
-    char line[MAX_LINES][MAX_LINES];
-
+int separateLines(int count_line, char *file_name, char line[MAX_LEN][MAX_LEN]){
     FILE* file = openFile(file_name);
 
     while (!feof(file) && !ferror(file)){
@@ -75,15 +74,23 @@ Process** inputProcessInfo(char* file_name){
             {
                 line[count_line][strlen(line[count_line]) - 1] = '\0'; 
             }
-             
+            printf("%s\n", line[count_line]);
             count_line++;
-            printf("%d", count_line);
         }
     }
     fclose(file);
 
-    Process *processes_list[count_line - 1];
+    return count_line;
+}
 
+void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_line, Process *processes_list_args[count_line - 1]){
+    
+    char *separated_line[MAX_LEN];
+
+    printf("%d", count_line);
+
+    Process *processes_list[50];
+    
     for (int i = 0; i < count_line - 1; i++)
     {
         parse_command_by_space(separated_line, line[i + 1]);
@@ -91,16 +98,18 @@ Process** inputProcessInfo(char* file_name){
         int period = atoi(separated_line[1]);
         int execution_time = atoi(separated_line[2]);
         char *name = separated_line[0];
-        
+    
         processes_list[i]->process_name = name;
         processes_list[i]->period = period;
         processes_list[i]->execution_time = execution_time;
 
-        printf("%s ", processes_list[i]->process_name);
-        printf("%d ", processes_list[i]->period);
-        printf("%d ", processes_list[i]->execution_time);
+        printf("%s", processes_list[i]->process_name);
+        printf("%d", processes_list[i]->period);
+        printf("%d", processes_list[i]->execution_time);
+        
     }
-    
-    exit(EXIT_SUCCESS);
 
+    processes_list_args = processes_list;
+    exit(EXIT_SUCCESS);
+      
 } 

@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "functions.c"
+#include "aux.c"
+
+#define MAX_LEN 1000
 
 int main(int argc, char const *argv[])
 {
@@ -19,20 +21,21 @@ int main(int argc, char const *argv[])
     }
                                                                                         */
     
-    Process process_list;
+    
     int clocks_count = 0;
     int clocks;
+    int count_line = 0;
+    char line[MAX_LEN][MAX_LEN];
+    char *separated_line[MAX_LEN];
 
+    count_line = separateLines(count_line, "input.txt", line);
+    //printf("%d", count_line);
+    
+    Process *process_list[50];
 
-    /* READ INPUT FILE / ALLOCATE IN STRUCT */;
-    inputProcessInfo("input.txt");
+    inputProcessInfo("input.txt", line, count_line, process_list);
+    //inputProcessInfo("input.txt");
 
-    /*
-    do
-    {
-        
-    } while (clocks_count < clocks);
-    */
-
+    //printf("%s", process_list[0]->process_name);
     return 0;
 }
