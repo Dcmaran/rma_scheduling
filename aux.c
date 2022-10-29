@@ -82,7 +82,7 @@ int separateLines(int count_line, char *file_name, char line[MAX_LEN][MAX_LEN]){
     return count_line;
 }
 
-void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_line, Process processes_list_args[count_line - 1], int clocks){
+void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_line, Process processes_list_args[count_line - 1]){
 
     char *separated_line[MAX_LEN];
 
@@ -136,3 +136,18 @@ void bsortDesc(Process process_list[], int count_process)
         }
     }
 }
+
+/*int estimatePriority(Process process_list[], int count_process, int total_time_count)
+{
+    for (int i = 0; i < count_process; i++)
+    {
+        if (process_list[i] )
+        {
+            
+        }
+        
+    }
+    
+        
+    
+} */
