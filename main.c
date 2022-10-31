@@ -35,13 +35,17 @@ int main(int argc, char *argv[])
     
 
     total_time = atoi(line[0]);
-
-    //printf("Clock - %d", clocks);    
+    
     int index_process = 0;
 
-    for (int total_time_count = 0; total_time_count <= total_time; total_time_count++)
+    for (int total_time_count = 1; total_time_count <= total_time; total_time_count++)
     {
-    
+        //printf("%d\n", total_time_count);
+        for (int i = 0; i < count_line - 1; i++)
+        {
+            process_list[i].period_count++;
+        }
+        
         process_list[index_process].executed_ut++;
 
         if (process_list[index_process].executed_ut == process_list[index_process].execution_time)
@@ -55,15 +59,54 @@ int main(int argc, char *argv[])
             {
                 index_process = 0;
             }
-
+            
         }
-           
+        
+        else if (process_list[index_process].executed_ut < process_list[index_process].execution_time)
+        {
+            for (int i = 0; i < count_line - 1; i++)
+            {
+                if (process_list[i].period_count == process_list[i].period)
+                {
+                    if (i < index_process)
+                    {   
+                        printf("[%s] for %d units - H\n", process_list[index_process].process_name, process_list[index_process].executed_ut);                   
+                        index_process = i;
+                        process_list[i].period_count = 0;
+                        process_list[index_process].period_count = 0;
+                    }
+
+                    else
+                    {
+                        index_process = index_process;
+                    }
+                            
+                }
+                
+            }
+
+            if (process_list[index_process].period_count == process_list[index_process].period)
+            {
+                if (process_list[index_process].executed_ut < process_list[index_process].execution_time)
+                {
+                    printf("[%s] for %d units - L\n", process_list[index_process].process_name, process_list[index_process].execution_time - process_list[index_process].executed_ut);
+                    process_list[index_process].deadlines++;
+                    process_list[index_process].executed_ut = 0;
+                    process_list[index_process].period_count = 0;
+                }
+                         
+            }
+            
+        }
+                
     }
+    
+    
 
     for (int i = 0; i < count_line - 1; i++)
     {
         printProcess(count_line - 1, process_list, i);
-    }
+    } 
     
     
     return 0;

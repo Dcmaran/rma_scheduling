@@ -16,6 +16,7 @@ typedef struct
     int deadlines;
     int complete_executions;
     int executed_ut;
+    int period_count;
 
 }Process;
 
@@ -102,6 +103,7 @@ void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_li
         process_aux.deadlines = 0;
         process_aux.executed_ut = 0;
         process_aux.complete_executions = 0;
+        process_aux.period_count = 0;
 
         processes_list_args[i] = process_aux;
     }
@@ -116,6 +118,7 @@ void printProcess(int count_line, Process process[count_line - 1], int i){
     printf("Deadlines - %d\n", process[i].deadlines);
     printf("Unity time - %d\n", process[i].executed_ut);
     printf("Complete Executions - %d\n", process[i].complete_executions);
+    printf("Period Count - %d\n", process[i].period_count);
 }
 
 void bsortDesc(Process process_list[], int count_process)
@@ -137,17 +140,8 @@ void bsortDesc(Process process_list[], int count_process)
     }
 }
 
-/*int estimatePriority(Process process_list[], int count_process, int total_time_count)
+int estimatePriority(Process process_list[], int count_process, int total_time_count, int process_index)
 {
-    for (int i = 0; i < count_process; i++)
-    {
-        if (process_list[i] )
-        {
-            
-        }
-        
-    }
+
     
-        
-    
-} */
+}
