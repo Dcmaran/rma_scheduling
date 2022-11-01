@@ -113,7 +113,20 @@ int main(int argc, char *argv[])
                 }
                 
             }
-
+            if (total_time_count == total_time)
+                    {
+                        for (int i = 0; i < count_line - 1; i++)
+                        {
+                            if (process_list[i].are_using == 1)
+                            {
+                                process_list[i].killed = 1;
+                            }
+                        }
+                        
+                        printf("[%s] for %d units - K\n", process_list[index_process].process_name, process_list[index_process].execution_time - process_list[index_process].executed_total);
+                        break;
+                    }      
+                               
             if (process_list[index_process].period_count == process_list[index_process].period)
             {
                 if (process_list[index_process].executed_total < process_list[index_process].execution_time)
@@ -129,18 +142,7 @@ int main(int argc, char *argv[])
             
         }
 
-        if (total_time_count == total_time)
-        {
-            for (int i = 0; i < count_line - 1; i++)
-            {
-                if (process_list[i].are_using == 1)
-                {
-                    process_list[i].killed = 1;
-                }
-            }
-            
-            printf("[%s] for %d units - K\n", process_list[index_process].process_name, process_list[index_process].execution_time - process_list[index_process].executed_total);
-        }     
+        
         
     }
     
