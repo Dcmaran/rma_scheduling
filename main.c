@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
 
     for (int total_time_count = 1; total_time_count <= total_time; total_time_count++)
     {
-        //printf("%d\n", total_time_count);        
+        //printf("%d\n", total_time_count);
+
         process_list[index_process].executed_total++;
         process_list[index_process].executed_ut++;
 
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
         {
             process_list[index_process].complete_executions++;
             printf("[%s] for %d units - F\n", process_list[index_process].process_name, process_list[index_process].executed_ut);
-            process_list[index_process].are_using = 0;
+            aux = 0;
             process_list[index_process].executed_ut = 0;
             process_list[index_process].executed_total = 0;
             process_list[index_process].in_hold = 0;
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
         
         else if (process_list[index_process].executed_total < process_list[index_process].execution_time)
         {
-            process_list[index_process].are_using = 1;
+            aux = 1;
 
             for (int i = 0; i < count_line - 1; i++)
             {
@@ -117,7 +118,7 @@ int main(int argc, char *argv[])
                     {
                         for (int i = 0; i < count_line - 1; i++)
                         {
-                            if (process_list[i].are_using == 1)
+                            if (process_list[i].executed_total < process_list[i].execution_time)
                             {
                                 process_list[i].killed = 1;
                             }
@@ -135,14 +136,12 @@ int main(int argc, char *argv[])
                     process_list[index_process].deadlines++;
                     process_list[index_process].executed_total = 0;
                     process_list[index_process].period_count = 0;
-                    process_list[index_process].are_using = 0;
+                    aux = 0;
                 }
                          
             }
             
         }
-
-        
         
     }
     
