@@ -16,7 +16,12 @@ typedef struct
     int deadlines;
     int complete_executions;
     int executed_ut;
+    int executed_total;
     int period_count;
+    int killed;
+    
+    /*flag status*/
+    int are_using;
 
 }Process;
 
@@ -104,6 +109,8 @@ void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_li
         process_aux.executed_ut = 0;
         process_aux.complete_executions = 0;
         process_aux.period_count = 0;
+        process_aux.killed = 0;
+        process_aux.executed_total = 0;
 
         processes_list_args[i] = process_aux;
     }
@@ -119,6 +126,7 @@ void printProcess(int count_line, Process process[count_line - 1], int i){
     printf("Unity time - %d\n", process[i].executed_ut);
     printf("Complete Executions - %d\n", process[i].complete_executions);
     printf("Period Count - %d\n", process[i].period_count);
+    printf("Process killed - %d\n", process[i].killed);
 }
 
 void bsortDesc(Process process_list[], int count_process)
