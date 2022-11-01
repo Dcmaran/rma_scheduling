@@ -19,6 +19,7 @@ typedef struct
     int executed_total;
     int period_count;
     int killed;
+    int in_hold;
     
     /*flag status*/
     int are_using;
@@ -111,6 +112,7 @@ void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_li
         process_aux.period_count = 0;
         process_aux.killed = 0;
         process_aux.executed_total = 0;
+        process_aux.in_hold = 0;
 
         processes_list_args[i] = process_aux;
     }

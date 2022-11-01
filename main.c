@@ -65,8 +65,21 @@ int main(int argc, char *argv[])
             process_list[index_process].are_using = 0;
             process_list[index_process].executed_ut = 0;
             process_list[index_process].executed_total = 0;
-            index_process += 1;
+            process_list[index_process].in_hold = 0;
+            
+            for (int i = 0; i < count_line - 1; i++)
+            {
+                if (process_list[i].in_hold == 1 && i > index_process)
+                {
+                    index_process = i;
+                }    
+            }
 
+            if (process_list[index_process].in_hold == 0)
+            {
+                index_process += 1;
+            }
+                      
             if (index_process == count_line - 1)
             {            
                 index_process = 0;               
@@ -84,8 +97,9 @@ int main(int argc, char *argv[])
                 {
                     if (i < index_process)
                     {   
-                        printf("[%s] for %d units - H\n", process_list[index_process].process_name, process_list[index_process].executed_total); 
+                        printf("[%s] for %d units - H\n", process_list[index_process].process_name, process_list[index_process].executed_total);
                         process_list[index_process].executed_ut = 0;
+                        process_list[index_process].in_hold = 1;
                         index_process = i;
                         process_list[i].period_count = 0;
 
