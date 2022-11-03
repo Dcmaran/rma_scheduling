@@ -42,8 +42,8 @@ int main(int argc, char *argv[])
 
     for (int total_time_count = 1; total_time_count <= total_time; total_time_count++)
     {
-        //printf("%d\n", total_time_count);
-        //printf("[%s] %d %d\n", process_list[index_process].process_name, process_list[index_process].executed_total, process_list[index_process].executed_ut);
+        printf("%d\n", total_time_count);
+        printf("[%s] %d %d\n", process_list[index_process].process_name, process_list[index_process].executed_total, process_list[index_process].executed_ut);
         if (aux < idle_count)
         {
             aux++;
