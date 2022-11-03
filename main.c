@@ -42,7 +42,19 @@ int main(int argc, char *argv[])
 
     for (int total_time_count = 1; total_time_count <= total_time; total_time_count++)
     {
-        //printf("%d\n", total_time_count);
+        printf("%d\n", total_time_count);
+        printf("[%s] %d %d\n", process_list[index_process].process_name, process_list[index_process].executed_total, process_list[index_process].executed_ut);
+        if (aux < idle_count)
+        {
+            aux++;
+            continue;
+        }
+        
+        if (aux == idle_count)
+        {
+            idle_count = 0;
+            aux = 0;
+        }
 
         process_list[index_process].executed_total++;
         process_list[index_process].executed_ut++;
@@ -63,7 +75,6 @@ int main(int argc, char *argv[])
         {
             process_list[index_process].complete_executions++;
             printf("[%s] for %d units - F\n", process_list[index_process].process_name, process_list[index_process].executed_ut);
-            aux = 0;
             process_list[index_process].executed_ut = 0;
             process_list[index_process].executed_total = 0;
             process_list[index_process].in_hold = 0;
@@ -82,15 +93,27 @@ int main(int argc, char *argv[])
             }
                       
             if (index_process == count_line - 1)
-            {            
-                index_process = 0;               
+            {
+                            
+                if (process_list[0].period_count != process_list[0].period)
+                {
+                    idle_count = process_list[0].period - process_list[0].period_count;
+                    printf("idle for %d units\n", idle_count);
+                    index_process = 0;
+                }
+
+                else
+                {
+                    index_process = index_process;
+                }
+                    
+                               
             }
             
         }
         
         else if (process_list[index_process].executed_total < process_list[index_process].execution_time)
         {
-            aux = 1;
 
             for (int i = 0; i < count_line - 1; i++)
             {
@@ -114,6 +137,7 @@ int main(int argc, char *argv[])
                 }
                 
             }
+            
             if (total_time_count == total_time)
                     {
                         for (int i = 0; i < count_line - 1; i++)
@@ -124,7 +148,7 @@ int main(int argc, char *argv[])
                             }
                         }
                         
-                        printf("[%s] for %d units - K\n", process_list[index_process].process_name, process_list[index_process].execution_time - process_list[index_process].executed_total);
+                        printf("[%s] for %d units - K\n", process_list[index_process].process_name, process_list[index_process].executed_ut);
                         break;
                     }      
                                
@@ -133,10 +157,12 @@ int main(int argc, char *argv[])
                 if (process_list[index_process].executed_total < process_list[index_process].execution_time)
                 {
                     printf("[%s] for %d units - L\n", process_list[index_process].process_name, process_list[index_process].execution_time - process_list[index_process].executed_total);
+                    process_list[index_process].executed_total = 0;
+                    process_list[index_process].executed_ut = 0;
                     process_list[index_process].deadlines++;
                     process_list[index_process].executed_total = 0;
                     process_list[index_process].period_count = 0;
-                    aux = 0;
+        
                 }
                          
             }
