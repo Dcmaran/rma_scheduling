@@ -38,14 +38,26 @@ int main(int argc, char *argv[])
 
     total_time = atoi(line[0]);
     
+    printf("EXECUTION BY RATE\n");
     int index_process = 0;
 
     for (int total_time_count = 1; total_time_count <= total_time; total_time_count++)
     {
-        printf("%d\n", total_time_count);
-        printf("[%s] %d %d\n", process_list[index_process].process_name, process_list[index_process].executed_total, process_list[index_process].executed_ut);
+        //printf("%d\n", total_time_count);
+        
         if (aux < idle_count)
         {
+            for (int i = 0; i < count_line - 1; i++)
+            {
+                if (process_list[i].period == process_list[i].period_count)
+                {
+                    process_list[i].period = process_list[i].period_count;
+                }
+                else
+                {
+                    process_list[i].period_count++;
+                }
+            }           
             aux++;
             continue;
         }
@@ -54,10 +66,8 @@ int main(int argc, char *argv[])
         {
             idle_count = 0;
             aux = 0;
+            
         }
-
-        process_list[index_process].executed_total++;
-        process_list[index_process].executed_ut++;
 
         for (int i = 0; i < count_line - 1; i++)
         {
@@ -69,7 +79,13 @@ int main(int argc, char *argv[])
             {
                 process_list[i].period_count++;
             }
-        }
+        }       
+
+        
+        process_list[index_process].executed_total++;
+        process_list[index_process].executed_ut++;
+
+        //printf("Process name [%s] process execute total time %d process execute time%d - period %d\n\n\n", process_list[index_process].process_name, process_list[index_process].executed_total, process_list[index_process].executed_ut, process_list[index_process].period_count);
 
         if (process_list[index_process].executed_total == process_list[index_process].execution_time)
         {
@@ -89,6 +105,7 @@ int main(int argc, char *argv[])
 
             if (process_list[index_process].in_hold == 0)
             {
+                
                 index_process += 1;
             }
                       
@@ -100,8 +117,14 @@ int main(int argc, char *argv[])
                     idle_count = process_list[0].period - process_list[0].period_count;
                     printf("idle for %d units\n", idle_count);
                     index_process = 0;
+                    process_list[0].period_count = 0;
                 }
 
+                /*else if (process_list[index_process].period_count == process_list[index_process].period)
+                {
+                    process_list[index_process].period_count = 0;
+                }*/
+   
                 else
                 {
                     index_process = index_process;
@@ -171,11 +194,25 @@ int main(int argc, char *argv[])
         
     }
     
+    printf("\nLOST DEADLINES\n");
+
     for (int i = 0; i < count_line - 1; i++)
     {
-        printProcess(count_line - 1, process_list, i);
+        printf("[%s] %d\n", process_list[i].process_name, process_list[i].deadlines);
     } 
     
-    
+    printf("\nCOMPLETE EXECUTION\n");
+
+    for (int i = 0; i < count_line - 1; i++)
+    {
+        printf("[%s] %d\n", process_list[i].process_name, process_list[i].complete_executions);
+    }
+
+    printf("\nKILLED\n");
+
+    for (int i = 0; i < count_line - 1; i++)
+    {
+        printf("[%s] %d\n", process_list[i].process_name, process_list[i].killed);
+    } 
     return 0;
 }
