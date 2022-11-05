@@ -86,8 +86,19 @@ int main(int argc, char *argv[])
 
             if (process_list[index_process].in_hold == 0)
             {
+                if (total_time_count > process_list[index_process+1].period_count)
+                {
+                    index_process += 1;
+                }
+                else
+                {
+                    idle_count = process_list[0].period_count - total_time_count;
+                    printf("idle for %d units\n", idle_count);
+                    index_process = 0;
+                    continue;
+                }
                 
-                index_process += 1;
+                
             }
                       
             if (index_process == count_line - 1)
