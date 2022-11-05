@@ -23,6 +23,7 @@ typedef struct
     
     /*flag status*/
     int are_using;
+    int pause_count_period;
 
 }Process;
 
@@ -113,6 +114,7 @@ void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_li
         process_aux.killed = 0;
         process_aux.executed_total = 0;
         process_aux.in_hold = 0;
+        process_aux.pause_count_period = 0;
 
         processes_list_args[i] = process_aux;
     }
@@ -148,10 +150,4 @@ void bsortDesc(Process process_list[], int count_process)
             } 
         }
     }
-}
-
-int estimatePriority(Process process_list[], int count_process, int total_time_count, int process_index)
-{
-
-    
 }
