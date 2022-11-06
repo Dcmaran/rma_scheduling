@@ -4,8 +4,6 @@
 
 #define MAX_LEN 1000
 
-//static const char* const process_status[] = {"F", "H", "L", "K"};
-
 typedef struct
 {
     int period;
@@ -33,7 +31,7 @@ FILE* openFile(char* file_name){
 
     if (file == NULL)
     {
-        fprintf(stderr, "File does not exist");
+        fprintf(stderr, "File does not exist\n");
         exit(EXIT_FAILURE);
     }
     else
@@ -60,16 +58,6 @@ void parse_command_by_space(char **args, char *command)
         
     }
     
-}
-
-
-void printExecutionByRate(char *process_name, int und, char* status){
-    printf("[%s] for %d units - %s", process_name, und, status);
-}
-
-
-void printLostDeadLines(char *process_name, int deadlines){
-    printf("[%s] %d", process_name, deadlines);
 }
 
 
@@ -115,7 +103,6 @@ void inputProcessInfo(char* file_name, char line[MAX_LEN][MAX_LEN], int count_li
         process_aux.executed_total = 0;
         process_aux.in_hold = 0;
         process_aux.pause_count_period = 0;
-
         processes_list_args[i] = process_aux;
     }
       
@@ -133,7 +120,7 @@ void printProcess(int count_line, Process process[count_line - 1], int i){
     printf("Process killed - %d\n", process[i].killed);
 }
 
-void bsortDesc(Process process_list[], int count_process)
+void sortProcess(Process process_list[], int count_process)
 {
     int i, j;
     Process temp;
